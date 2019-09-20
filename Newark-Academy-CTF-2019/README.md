@@ -118,6 +118,7 @@ Using the cihper scheme, we can easily decrypt it
 
 #### Solution
 This is a RSA chal. We have public key (n,c), and we also have private key (d). That's enough for decryption.
+
 [RSA_0.py](Code/RSA_0.py)
 
 #### Flag
@@ -145,6 +146,7 @@ This is a RSA chal. We have public key (n,c), and we also have private key (d). 
 #### Solution
 Now we just have public key (n,e,c) and n is too big. We can't factorize n.
 But the cipher space is small: `26^4 = 456976`. So we can brute force it.
+
 [RSA_1.py](Code/RSA_1.py)
 
 #### Flag
@@ -209,7 +211,7 @@ Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. W
 [class-randomizer-0.c](Files/class-randomizer-0.c)
 
 #### Chal
-In the chal, Server give us the current random number. We need to guess the 2 next random numbers.
+In the chal, Server gives us the current random number. We need to guess the 2 next random numbers.
 ```bash
 $ nc shell.2019.nactf.com 31425
 
@@ -229,7 +231,7 @@ That's incorrect. Get out of here!
 ```
 
 #### Solution
-Review the code, I found out that the nextRand() function will create new seed based on previous one:
+Review the code, I found out that the nextRand() function will create new seed based on the previous one:
 ```c
 uint64_t nextRand() {
   // Keep the 8 middle digits from 5 to 12 (inclusive) and square.
@@ -239,6 +241,7 @@ uint64_t nextRand() {
 }
 ```
 So, we can calculate the 2 next seeds easily.
+
 [random_0.py](Code/random_0.py)
 
 #### Flag
