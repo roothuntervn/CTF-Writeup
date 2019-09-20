@@ -115,6 +115,25 @@ Using the cihper scheme, we can easily decrypt it
 [class-randomizer-0.c](Files/class-randomizer-0.c)
 
 #### Solution
+In the chal, Server give us the current random number. We need to guess the 2 next random numbers.
+```bash
+$ nc shell.2019.nactf.com 31425
+
+Welcome to Dr. J's Random Number Generator v1! 
+[r] Print a new random number 
+[g] Guess the next two random numbers and receive the flag! 
+[q] Quit 
+
+> r
+311696200206400
+> g
+
+Guess the next two random numbers for a flag! You have a 0.0000000000000000000000000000001% chance of guessing both correctly... Good luck!
+Enter your first guess:
+> 3523452342345
+That's incorrect. Get out of here!
+```
+
 Review the code, I found out that the nextRand() function will create new seed based on previous seed:
 ```c
 uint64_t nextRand() {
@@ -124,7 +143,7 @@ uint64_t nextRand() {
   return seed;
 }
 ```
-So, we can calculate the next seed just based on the previous one
+So, we can calculate the next seed using the code:
 ```python
 from pwn import *
 
