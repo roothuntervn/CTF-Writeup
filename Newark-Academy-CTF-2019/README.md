@@ -66,11 +66,7 @@
 ### Vyom's Soggy Croutons (50)
 
 #### Description
-> Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this:
-
-> ertkw{vk_kl_silkv}
-
-> Can you help me decipher his message?
+> Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this: ertkw{vk_kl_silkv}. Can you help me decipher his message?
 #### Hint
 > You don't have to decode it by hand -- Google is your friend!
 #### Solution
@@ -80,5 +76,4 @@ So, we can decrypt it using some online tool like [Cryptii](https://cryptii.com/
 ```
 print(''.join([chr((ord(c)-ord('a')+9)%26+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in 'ertkw{vk_kl_silkv}']))
 ```
-
-*Flag: * ***nactf{et_tu_brute}***
+*Flag:* ***nactf{et_tu_brute}***
