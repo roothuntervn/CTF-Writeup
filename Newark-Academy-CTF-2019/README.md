@@ -88,7 +88,7 @@ print(plain)
 > Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
 
 #### File
-![pig.jpg](Images/pig.jpg)
+- ![pig.jpg](Images/pig.jpg)
 
 #### Solution
 The description refers to pig many times, in order to refer to **Pigpen Cipher**
@@ -116,12 +116,12 @@ Using the cihper scheme, we can easily decrypt it
 > If you're new to RSA, you may want to try this tool: https://www.dcode.fr/modular-exponentiation. If you like python, try the pow() function!
 
 #### File
-[rsa.txt](Files/rsa.txt)
+- [rsa.txt](Files/rsa.txt)
 
 #### Solution
 This is a RSA chal. We have public key (n,c), and we also have private key (d). That's enough for decryption.
 
-[RSA_0.py](Code/RSA_0.py)
+- [RSA_0.py](Code/RSA_0.py)
 
 #### Flag
 `nactf{w3lc0me_t0_numb3r_th30ry}`
@@ -143,13 +143,13 @@ This is a RSA chal. We have public key (n,c), and we also have private key (d). 
 > (Note: By brute-force, we do not mean brute-forcing the flag submission - do not SUBMIT dozens of flags. Brute force on your own computer.)
 
 #### File
-[ReversibleSneakyAlgorithm.txt](Files/ReversibleSneakyAlgorithm.txt)
+- [ReversibleSneakyAlgorithm.txt](Files/ReversibleSneakyAlgorithm.txt)
 
 #### Solution
 Now we just have public key (n,e,c) and n is too big. We can't factorize n.
 But the cipher space is small: `26^4 = 456976`. So we can brute force it.
 
-[RSA_1.py](Code/RSA_1.py)
+- [RSA_1.py](Code/RSA_1.py)
 
 #### Flag
 `nactf{pkcs}`
@@ -171,9 +171,9 @@ But the cipher space is small: `26^4 = 456976`. So we can brute force it.
 > I'm pretty SHOR Oligar was building a quantum computer for something...
 
 #### File
-[shor.py](Files/shor.py)
-[oligarchy.pem](Files/oligarchy.pem)
-[are_you_shor.txt](Files/are_you_shor.txt)
+- [shor.py](Files/shor.py)
+- [oligarchy.pem](Files/oligarchy.pem)
+- [are_you_shor.txt](Files/are_you_shor.txt)
 
 #### Solution
 From description and hint, we know that we need to use [SHOR algorithm](https://en.wikipedia.org/wiki/Shor%27s_algorithm) to sovle the chal.
@@ -190,7 +190,7 @@ f(0) = a^0 mod (n) = 1 mod (n)
 Because of `f(r) = f(0)`, so `r` divides `phi(n)`, or `phi(n) = k.r`. We just need to brute force `k`.
 Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. We can decrypt the cipher.
 
-[RSA_2.py](Code/RSA_2.py)
+- [RSA_2.py](Code/RSA_2.py)
 
 #### Flag
 `nactf{d0wn_wi7h_7h3_0lig4rchy}`
@@ -210,7 +210,7 @@ Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. W
 > The middle-square method is completely determined by the previous random number... you can use a calculator and test that this is true!
 
 #### File
-[class-randomizer-0.c](Files/class-randomizer-0.c)
+- [class-randomizer-0.c](Files/class-randomizer-0.c)
 
 #### Chal
 In the chal, Server gives us the current random number. We need to guess the 2 next random numbers.
@@ -244,7 +244,7 @@ uint64_t nextRand() {
 ```
 So, we can calculate the 2 next seeds easily.
 
-[random_0.py](Code/random_0.py)
+- [random_0.py](Code/random_0.py)
 
 #### Flag
 `nactf{1_l0v3_chunky_7urn1p5}`
@@ -262,7 +262,7 @@ So, we can calculate the 2 next seeds easily.
 > Don't know where to start? Fire up a debugger, or look for cross-references to data you know something about.
 
 #### File
-[keygen-1](Files/keygen-1)
+- [keygen-1](Files/keygen-1)
 
 #### Solution
 Using IDA to decompile the binary, we got [this](Code/keygen-1.c). 2 important functions:
@@ -313,7 +313,7 @@ with
 
 We can easily calculate **X** from v3.
 
-[keygen.py](Code/keygen.py)
+- [keygen.py](Code/keygen.py)
 
 #### Flag
 `nactf{xxxxxxxx}`
