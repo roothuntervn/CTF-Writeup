@@ -174,6 +174,77 @@ for s in L:
 
 
 
+## [Cryptography] - Reversible Sneaky Algorithm #2 (350)
+
+#### Description
+> Oligar was thinking about number theory at AwesomeMath when he decided to encrypt a message with RSA. As a mathematician, he made various observations about the numbers. He told Molly one such observation:
+
+> a^r ≡ 1 (mod n)
+
+> He isn't SHOR if he accidentally revealed anything by telling Molly this fact... can you decrypt his message?
+
+> Source code, a and r, public key, and ciphertext are attached.
+
+#### Hint
+> I'm pretty SHOR Oligar was building a quantum computer for something...
+
+#### File
+[shor.py](Files/shor.py)
+[oligarchy.pem](Files/oligarchy.pem)
+[are_you_shor.txt](Files/are_you_shor.txt)
+
+#### Solution
+From description and hint, we know that we need to use [SHOR algorithm](https://en.wikipedia.org/wiki/Shor%27s_algorithm) to sovle the chal.
+Based on the *algorithm*, we know that if 
+```
+f(x+r) = f(x) with f(x) = a^x mod (n)
+```
+then r divides phi(n), where phi(n) denotes Euler's totient function.
+If we choose x=0 then:
+```
+f(r) = a^r mod (n)
+f(0) = a^0 mod (n) = 1 mod (n)
+```
+Because of `f(r) = f(0)`, so r divides phi(n): `phi(n) = k.r`. We just need to brute force `k`.
+
+Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. We can decrypt the cipher.
+
+```python
+from Cryptodome.PublicKey import RSA
+from Cryptodome.Cipher import PKCS1_OAEP
+from gmpy2 import *
+
+public_key = RSA.importKey(open('oligarchy.pem', 'r').read())
+n = public_key.n
+e = public_key.e
+r = 21700996784810065805847020455080940987640304282783092123992896363328128691169420271855815648912121417792054646557156071514079520782530801688062034321252682229729442734741486715339008457753023855600772948737800521010217600436912058582658334252483984244806083617513596479033871117464319239681526924092910597300
+c = 85407181759755287105309527383534372436668736072315927293076398182206068631971587183149437554341349819060482477969350837066653250734556920049021810122548703168301872412719117857995283679569989680329696657609285728934732302846152702363240223251805773071022405764521081142920227557091217872210813095318042763847
+
+i = 0
+while True:
+    i += 1
+    phi = r*i
+    pq = n + 1 - phi
+    delta = pq*pq - 4*n
+    p = (pq + isqrt(delta))/2
+    q = (pq - isqrt(delta))/2
+    if p*q == n:
+        break
+
+d = long(invert(e, phi))
+
+private_key = RSA.construct([n,e,d])
+ciphertext = hex(c)[2:-1].decode('hex')
+cipher = PKCS1_OAEP.new(private_key)
+message = cipher.decrypt(ciphertext)
+print(message)
+```
+
+#### Flag
+`nactf{pkcs}`
+
+
+
 ## [Cryptography] - Dr. J's Group Test Randomizer: Board Problem #0 (100)
 
 #### Description
