@@ -74,9 +74,13 @@ print(plain)
 
 ## Cryptography - Loony Tunes (50)
 #### Description
-> Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs!
-> P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed
-> P.P.S the flag is all lowercase
+> Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
 #### File
-![pig.jpg](Images/pig.jpg "pig.jpg")
+![pig.jpg](Images/pig.jpg)
+#### Solution
+The description refers to pig many times, in order to refer to **Pigpen Cipher**
+![pigpen cipher](Images/pigpen_cipher.png)
+Using the cihper scheme, we can easily decrypt it
+#### Flag
+`nactf{th_th_th_thats_all_folks}`
 
