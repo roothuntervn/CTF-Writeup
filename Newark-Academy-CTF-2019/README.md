@@ -115,5 +115,33 @@ Using the cihper scheme, we can easily decrypt it
 [class-randomizer-0.c](Files/class-randomizer-0.c)
 
 #### Solution
+Review the code, I found out that the nextRand() function will create new seed based on previous seed:
+```c
+uint64_t nextRand() {
+  // Keep the 8 middle digits from 5 to 12 (inclusive) and square.
+  seed = getDigits(seed, 5, 12);
+  seed *= seed;
+  return seed;
+}
+```
+So, we can calculate the next seed just based on the previous one
+```python
+from pwn import *
+
+p = remote('shell.2019.nactf.com', 31425)
+p.recvuntil('> ')
+p.sendline('r')
+num = p.recv().split('\n')[0].strip()
+num_1 = long(str(num)[4:12]) ** 2
+num_2 = long(str(num_1)[4:12]) ** 2
+p.sendline('g')
+p.recvuntil('> ')
+p.sendline(str(num_1))
+p.recv()
+p.sendline(str(num_2))
+p.interactive()
+```
+ #### Flag
+ `nactf{1_l0v3_chunky_7urn1p5}`
 
 
