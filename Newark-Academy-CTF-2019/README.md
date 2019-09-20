@@ -32,7 +32,7 @@
 	- [x] Cellular Evolution #2: VikTreebel (150)
 	- [ ] Cellular Evolution #3: BBOB (600)
 	- [ ] Hwang's Hidden Handiwork (100)
-### Binary Exploitation
+### [Binary Exploitation](#binary-exploitation)
 	- [x] BufferOverflow #0 (100)
 	- [x] BufferOverflow #1 (200)
 	- [x] BufferOverflow #2 (200)
@@ -50,7 +50,7 @@
 	- [x] Phuzzy Photo (250)
 	- [x] File recovery (300)
 	- [ ] My Ears Hurt (75)
-### Web Exploitation
+### [Web Exploitation](#web-exploitation)
 	- [x] Pink Panther (50)
 	- [x] Scooby Doo (100)
 	- [x] Dexter's Lab (125)
@@ -88,7 +88,7 @@ print(plain)
 > Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
 
 #### File
-- ![pig.jpg](Images/pig.jpg)
+![pig.jpg](Images/pig.jpg)
 
 #### Solution
 The description refers to pig many times, in order to refer to **Pigpen Cipher**
@@ -507,3 +507,87 @@ nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}
 
 #### Flag
 `nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}`
+
+
+***
+# Web Exploitation
+***
+
+## Pink Panther (50)
+
+#### Description
+> Rahul loves the Pink Panther. He even made this website:
+http://pinkpanther.web.2019.nactf.com. 
+I think he hid a message somewhere on the webpage, but I don't know where... can you INSPECT and find the message?
+https://www.youtube.com/watch?v=2HMSnfeNf8c
+
+#### Hint
+> This might be slightly more difficult on some browsers than on others. Chrome works well.
+
+#### Solution
+Just view source, you will see **Flag**
+
+#### Flag
+`nactf{1nsp3ct_b3tter_7han_c10us3au}`
+
+
+***
+
+## Scooby Doo (100)
+
+#### Description
+> Kira loves to watch Scooby Doo so much that she made a website about it! She also added a clicker game which looks impossible. Can you use your inspector skills from Pink Panther to reveal the flag?
+
+> http://scoobydoo.web.2019.nactf.com
+
+#### Solution
+View-source:
+```html
+<div id="flagContainer">
+        <img class="letter" src="a.png" style="opacity: 0; left:860px;">
+        <img class="letter" src="b.png" style="opacity: 0.2; top: 5px; left:240px;">
+        <img class="letter" src="c.png" style="opacity: 0; top: 5px; left:820px;">
+        ...
+        <img class="letter" src="v.png" style="opacity: 0; top: 5px; left:480px;">
+</div>
+```
+To get flag, we need to change the opacity of `<img>` tags to **1**
+
+#### Flag
+`nactf{ult1m4T3_sh4ggY}`
+
+
+***
+
+## Dexter's Lab (125)
+
+#### Description
+> Dee Dee,
+Please check in on your brother's lab at dexterslab.web.2019.nactf.com We know his username is Dexter, but we don't know his password! Maybe you can use a SQL injection?
+Mom + Dad
+
+#### Solution
+A basic SQL Injection `' or 1=1#` and we got **flag**
+
+#### Flag
+`nactf{1nj3c7ion5_ar3_saf3_in_th3_l4b}`
+
+
+***
+
+## Sesame Street (125)
+
+#### Description
+> Surprisingly, The20thDuck loves cookies! He also has no idea how to use php. He accidentally messed up a cookie so it's only available on the countdown page... Also why use cookies in the first place?
+
+> sesamestreet.web.2019.nactf.com
+
+#### Hint
+> The20thDuck's web development skills are not on the right PATH...
+
+#### Solution
+Go to http://sesamestreet.web.2019.nactf.com/countdown.php.
+Edit cookie `session-time`, change the `Path` to `flag.php`, change the `value` to a large number such as `2568986265`. Finally, go to http://sesamestreet.web.2019.nactf.com/flag.php, we will got **flag**
+
+#### Flag
+`nactf{c000000000ki3s}`
