@@ -5,7 +5,7 @@
 
 ## Challenges
 
-### [Cryptography](#cryptography)
+### [Cryptography](#cryptography-\--1)
 	- [x] Vyom's Soggy Croutons (50)
 	- [x] Loony Tunes (50)
 	- [x] Reversible Sneaky Algorithm #0 (125)
@@ -58,7 +58,6 @@
 
 * * *
 # [Cryptography]
-***
 
 ## Vyom's Soggy Croutons (50)
 
