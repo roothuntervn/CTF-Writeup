@@ -248,3 +248,70 @@ So, we can calculate the 2 next seeds easily.
 `nactf{1_l0v3_chunky_7urn1p5}`
 
 
+
+## [Reverse Engineering] - Keygen (100)
+
+#### Description
+> Can you figure out what the key to this program is?
+
+#### Hint
+> Don't know where to start? Fire up a debugger, or look for cross-references to data you know something about.
+
+#### File
+[keygen-1](Files/keygen-1)
+
+#### Solution
+Using IDA to decompile the binary, we got [this](Code/keygen-1.c). 2 importain functions:
+```c
+bool __cdecl sub_804928C(char *s)
+{
+  if ( strlen(s) != 15 )
+    return 0;
+  if ( s != strstr(s, "nactf{") )
+    return 0;
+  if ( s[14] == 125 )
+    return sub_80491B6(s + 6) == 21380291284888LL;
+  return 0;
+}
+```
+
+So flag is **nactf{xxxxxxxx}**. We have to find out 8 characters in brackets. I will denotes it: **nactf{X}**.
+```c
+__int64 __cdecl sub_80491B6(_BYTE *a1)
+{
+  _BYTE *i; // [esp+4h] [ebp-Ch]
+  __int64 v3; // [esp+8h] [ebp-8h]
+
+  v3 = 0LL;
+  for ( i = a1; i < a1 + 8; ++i )
+  {
+    v3 *= 62LL;
+    if ( *i > 64 && *i <= 90 )
+      v3 += (char)*i - 65;
+    if ( *i > 96 && *i <= 122 )
+      v3 += (char)*i - 71;
+    if ( *i > 47 && *i <= 57 )
+      v3 += (char)*i + 4;
+  }
+  return v3;
+}
+```
+
+After doing some math stuff, we finally got this:
+```
+v3 = 62^7 * x1 + 62^6 * x2 + ... + 62 * x7 + x8
+with
+	v3 = 21380291284888
+	x[i] = X[i] - 65 if (X[i] > 64 && X[i] <= 90)
+	x[i] = X[i] - 71 if X[i] > 96 && X[i] <= 122
+	x[i] = X[i] + 4 if X[i] > 47 && X[i] <= 57
+```
+
+We can easily calculate **X** from v3.
+
+[keygen.py](Code/keygen.py)
+
+#### Flag
+`nactf{xxxxxxxx}`
+
+
