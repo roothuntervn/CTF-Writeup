@@ -5,7 +5,7 @@
 
 ## Challenges
 
-### [Cryptography](#cryptography---vyom's-soggy-croutons-(50))
+### [Cryptography](#[cryptography]-vyom's-soggy-croutons-(50))
 	- [x] Vyom's Soggy Croutons (50)
 	- [x] Loony Tunes (50)
 	- [x] Reversible Sneaky Algorithm #0 (125)
@@ -58,7 +58,7 @@
 
 * * *
 
-## Cryptography - Vyom's Soggy Croutons (50)
+## [Cryptography] Vyom's Soggy Croutons (50)
 
 #### Description
 > Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this: ertkw{vk_kl_silkv}. Can you help me decipher his message?
