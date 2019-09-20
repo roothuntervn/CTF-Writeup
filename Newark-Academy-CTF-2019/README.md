@@ -58,6 +58,7 @@
 
 * * *
 # [Cryptography]
+* * *
 
 ## Vyom's Soggy Croutons (50)
 
@@ -250,7 +251,7 @@ So, we can calculate the 2 next seeds easily.
 
 * * *
 # [Reverse Engineering]
-***
+* * *
 
 ## Keygen (100)
 
