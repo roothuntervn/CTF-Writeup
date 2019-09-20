@@ -5,7 +5,7 @@
 
 ## Challenges
 
-### Cryptography
+### [Cryptography](#cryptography---Vyom's-Soggy-Croutons-(50))
 	- [x] Vyom's Soggy Croutons (50)
 	- [x] Loony Tunes (50)
 	- [x] Reversible Sneaky Algorithm #0 (125)
@@ -67,7 +67,7 @@
 > You don't have to decode it by hand -- Google is your friend!
 
 #### Solution
-Thanks to description, we know that the cipher is CAESAR. The shift key will be `ord('n') - ord('e') = 9`.\s
+Thanks to description, we know that the cipher is CAESAR. The shift key will be `ord('n') - ord('e') = 9`.
 So, we can decrypt it using some online tools like [Cryptii](https://cryptii.com/) or writing python code:
 ```python
 cipher = 'ertkw{vk_kl_silkv}'
@@ -83,7 +83,7 @@ print(plain)
 ## [Cryptography] - Loony Tunes (50)
 
 #### Description
-> Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs!\s P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed.\s P.P.S the flag is all lowercase
+> Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
 
 #### File
 ![pig.jpg](Images/pig.jpg)
@@ -117,7 +117,8 @@ Using the cihper scheme, we can easily decrypt it
 [rsa.txt](Files/rsa.txt)
 
 #### Solution
-This is a RSA chal. We have public key (n,c), and we also have private key (d). That's enough for decryption.\s
+This is a RSA chal. We have public key (n,c), and we also have private key (d). That's enough for decryption.
+
 [RSA_0.py](Code/RSA_0.py)
 
 #### Flag
@@ -128,8 +129,10 @@ This is a RSA chal. We have public key (n,c), and we also have private key (d). 
 ## [Cryptography] - Reversible Sneaky Algorithm #1 (275)
 
 #### Description
-> Lori decided to implement RSA without any security measures like random padding. Must be deterministic then, huh? Silly goose!\s
-> She encrypted a message of the form nactf{****} where the redacted flag is a string of 4 lowercase alphabetical characters. Can you decrypt it?\s
+> Lori decided to implement RSA without any security measures like random padding. Must be deterministic then, huh? Silly goose!
+
+> She encrypted a message of the form nactf{****} where the redacted flag is a string of 4 lowercase alphabetical characters. Can you decrypt it?
+
 > As in the previous problem, the message is converted to a number by converting ascii to hex.
 
 #### Hint
@@ -142,7 +145,8 @@ This is a RSA chal. We have public key (n,c), and we also have private key (d). 
 
 #### Solution
 Now we just have public key (n,e,c) and n is too big. We can't factorize n.
-But the cipher space is small: `26^4 = 456976`. So we can brute force it.\s
+But the cipher space is small: `26^4 = 456976`. So we can brute force it.
+
 [RSA_1.py](Code/RSA_1.py)
 
 #### Flag
@@ -181,8 +185,9 @@ If we choose x=0 then:
 f(r) = a^r mod (n)
 f(0) = a^0 mod (n) = 1 mod (n)
 ```
-Because of `f(r) = f(0)`, so `r` divides `phi(n)`, or `phi(n) = k.r`. We just need to brute force `k`.\s
-Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. We can decrypt the cipher.\s
+Because of `f(r) = f(0)`, so `r` divides `phi(n)`, or `phi(n) = k.r`. We just need to brute force `k`.
+Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. We can decrypt the cipher.
+
 [RSA_2.py](Code/RSA_2.py)
 
 #### Flag
@@ -235,7 +240,8 @@ uint64_t nextRand() {
   return seed;
 }
 ```
-So, we can calculate the 2 next seeds easily.\s
+So, we can calculate the 2 next seeds easily.
+
 [random_0.py](Code/random_0.py)
 
 #### Flag
@@ -255,7 +261,7 @@ So, we can calculate the 2 next seeds easily.\s
 [keygen-1](Files/keygen-1)
 
 #### Solution
-Using IDA to decompile the binary, we got [this](Code/keygen-1.c). 2 importain functions:
+Using IDA to decompile the binary, we got [this](Code/keygen-1.c). 2 important functions:
 ```c
 bool __cdecl sub_804928C(char *s)
 {
@@ -291,7 +297,7 @@ __int64 __cdecl sub_80491B6(_BYTE *a1)
 }
 ```
 
-After doing some math stuff, we finally got this:
+After doing some math stuffs, we finally got this:
 ```
 v3 = 62^7 * x1 + 62^6 * x2 + ... + 62 * x7 + x8
 with
@@ -301,7 +307,8 @@ with
 	x[i] = X[i] + 4 if X[i] > 47 && X[i] <= 57
 ```
 
-We can easily calculate **X** from v3.\s
+We can easily calculate **X** from v3.
+
 [keygen.py](Code/keygen.py)
 
 #### Flag
