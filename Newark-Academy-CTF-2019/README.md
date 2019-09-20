@@ -32,7 +32,7 @@
 	- [x] Cellular Evolution #2: VikTreebel (150)
 	- [ ] Cellular Evolution #3: BBOB (600)
 	- [ ] Hwang's Hidden Handiwork (100)
-### [Binary Exploitation](#binary-exploitation)
+### [Binary Exploitation](#binary-exploitation\-1)
 	- [x] BufferOverflow #0 (100)
 	- [x] BufferOverflow #1 (200)
 	- [x] BufferOverflow #2 (200)
@@ -50,7 +50,7 @@
 	- [x] Phuzzy Photo (250)
 	- [x] File recovery (300)
 	- [ ] My Ears Hurt (75)
-### [Web Exploitation](#web-exploitation)
+### [Web Exploitation](#web-exploitation\-1)
 	- [x] Pink Panther (50)
 	- [x] Scooby Doo (100)
 	- [x] Dexter's Lab (125)
@@ -320,6 +320,157 @@ We can easily calculate **X** from v3.
 
 
 ***
+# General Skills
+***
+
+## Intro to Flags (10)
+
+#### Description
+> Your flag is nactf{w3lc0m3_t0_th3_m4tr1x}
+
+#### Flag
+`nactf{1nsp3ct_b3tter_7han_c10us3au}`
+
+
+***
+
+## Join the Discord (25)
+
+#### Description
+> Go to the NACTF home page and find the link to the Discord server. A flag will be waiting for you once you join. So will Austin.
+
+#### Flag
+`nactf{g00d_luck_h4v3_fun}`
+
+
+***
+
+## What the HEX? (25)
+
+#### Description
+> What the HEX man! My friend Elon just posted this message and I have no idea what it means >:( Please help me decode it:
+https://twitter.com/kevinmitnick/status/1028080089592815618?lang=en. 
+Leave the text format: no need to add nactf{} or change punctuation/capitalization
+
+#### Hint
+> online converters are pretty useful
+
+#### Solution
+Cipher is
+```
+49 20 77 61 73 2e 20 53 6f 72 72 79 20 74 6f 20 68 61 76 65 20 6d 69 73 73 65 64 20 79 6f 75 2e
+```
+Decode:
+```python
+c = '49 20 77 61 73 2e 20 53 6f 72 72 79 20 74 6f 20 68 61 76 65 20 6d 69 73 73 65 64 20 79 6f 75 2e'
+p = c.replace(' ','').decode('hex')
+print(p)
+```
+
+#### Flag
+`I was. Sorry to have missed you.`
+
+
+***
+
+## Off-base (25)
+
+#### Description
+> It seems my friend Rohan won't stop sending cryptic messages and he keeps mumbling something about base 64. Quick! We need to figure out what he is trying to say before he loses his mind...
+
+> bmFjdGZ7YV9jaDRuZzNfMGZfYmE1ZX0=
+
+#### Solution
+It is base64 encode.
+```python
+print('bmFjdGZ7YV9jaDRuZzNfMGZfYmE1ZX0='.decode('base64'))
+```
+
+#### Flag
+`nactf{a_ch4ng3_0f_ba5e}`
+
+
+***
+
+## Cat over the wire (50)
+
+#### Description
+> Open up a terminal and connect to the server at shell.2019.nactf.com on port 31242 and get the flag!
+Use this netcat command in terminal:
+
+> nc shell.2019.nactf.com 31242
+
+#### Flag
+`nactf{th3_c4ts_0ut_0f_th3_b4g}`
+
+
+***
+
+## Grace's HashBrowns (50)
+
+#### Description
+> Grace was trying to make some food for her family but she really messed it up. She was trying to make some hashbrowns but instead, she made this:
+**f5525fc4fc5fdd42a7cf4f65dc27571c**.
+I guess Grace is a really bad cook. But at least she tried to add some md5 sauce.
+remember to put the flag in nactf{....}
+
+#### Solution
+Using online [tools](https://hashkiller.co.uk/Cracker) to decrypt MD5
+
+#### Flag
+`nactf{grak}`
+
+
+***
+
+## Get a GREP #0 (100)
+
+#### Description
+> Vikram was climbing a chunky tree when he decided to hide a flag on one of the leaves. There are 10,000 leaves so there's no way you can find the right one in time... Can you open up a terminal window and get a grep on the flag?
+
+#### Hint
+> You'll need to add an option to the grep command: look up recursive search!
+
+#### File
+- [bigtree.zip](Files/bigtree.zip)
+
+#### Solution
+```bash
+$ grep -r nactf .
+./branch8/branch3/branch5/leaf8351.txt:nactf{v1kram_and_h1s_10000_l3av3s}
+```
+
+#### Flag
+`nactf{v1kram_and_h1s_10000_l3av3s}`
+
+
+***
+
+## Get a GREP #1 (125)
+
+#### Description
+> Juliet hid a flag among 100,000 dummy ones so I don't know which one is real! But maybe the format of her flag is predictable? I know sometimes people add random characters to the end of flags... I think she put 7 random vowels at the end of hers. Can you get a GREP on this flag?
+
+#### Hint
+> Look up regular expressions (regex) and the regex option in grep!
+
+#### File
+- [flag.txt](Files/flag.txt)
+
+#### Solution
+```bash
+
+```
+
+#### Flag
+`nactf{}`
+
+
+
+
+
+
+***
 # [Binary Exploitation]
 ***
 
@@ -563,11 +714,11 @@ To get flag, we need to change the opacity of `<img>` tags to **1**
 
 #### Description
 > Dee Dee,
-Please check in on your brother's lab at dexterslab.web.2019.nactf.com We know his username is Dexter, but we don't know his password! Maybe you can use a SQL injection?
+Please check in on your brother's lab at http://dexterslab.web.2019.nactf.com We know his username is Dexter, but we don't know his password! Maybe you can use a SQL injection?
 Mom + Dad
 
 #### Solution
-A basic SQL Injection `' or 1=1#` and we got **flag**
+Use a basic SQL Injection `' or 1=1#` and we got **flag**.
 
 #### Flag
 `nactf{1nj3c7ion5_ar3_saf3_in_th3_l4b}`
@@ -580,7 +731,7 @@ A basic SQL Injection `' or 1=1#` and we got **flag**
 #### Description
 > Surprisingly, The20thDuck loves cookies! He also has no idea how to use php. He accidentally messed up a cookie so it's only available on the countdown page... Also why use cookies in the first place?
 
-> sesamestreet.web.2019.nactf.com
+> http://sesamestreet.web.2019.nactf.com
 
 #### Hint
 > The20thDuck's web development skills are not on the right PATH...
