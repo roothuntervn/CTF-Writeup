@@ -66,16 +66,17 @@
 ### Vyom's Soggy Croutons (50)
 
 #### Description
-	Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this:
-	ertkw{vk_kl_silkv}
-	Can you help me decipher his message?
+> Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this:
+> ertkw{vk_kl_silkv}
+> Can you help me decipher his message?
 #### Hint
-	You don't have to decode it by hand -- Google is your friend!
+> You don't have to decode it by hand -- Google is your friend!
 #### Solution
-Thanks to description, we know that the cipher is CAESAR. So, we can decrypt it using some online tool like [Cryptii](https://cryptii.com/) or writing some code:
+Thanks to description, we know that the cipher is CAESAR. The sift key will be `ord('n') - ord('e') = 9`. 
+So, we can decrypt it using some online tool like [Cryptii](https://cryptii.com/) or writing some code:
 
 	```
 	print(''.join([chr((ord(c)-ord('a')+9)%26+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in 'ertkw{vk_kl_silkv}']))
 	```
 
-> nactf{et_tu_brute}
+*** nactf{et_tu_brute} ***
