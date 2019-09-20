@@ -1,11 +1,11 @@
 # CTF-Writeup
 [CTFTime link](https://ctftime.org/event/869) | [Website](https://www.nactf.com/)
 
-# Scoreboard
+## Scoreboard
 
-# Challenges
+## Challenges
 
-## Cryptography
+### Cryptography
  - [x] Vyom's Soggy Croutons (50)
  - [x] Loony Tunes (50)
  - [x] Reversible Sneaky Algorithm #0 (125)
@@ -16,10 +16,10 @@
  - [ ] Dr.J's Group Test Randomizer: Board Problem #2 (625)
  - [ ] Syper Duper AES (250)
 
-## Reverse Engineering
+### Reverse Engineering
  - [x] Keygen (600)
 
-## General Skills
+### General Skills
  - [x] Intro to Flags (10)
  - [x] Join the Discord (25)
  - [x] What the HEX? (25)
@@ -35,7 +35,7 @@
  - [ ] Cellular Evolution #3: BBOB (600)
  - [ ] Hwang's Hidden Handiwork (100)
 
-## Binary Exploitation
+### Binary Exploitation
  - [x] BufferOverflow #0 (100)
  - [x] BufferOverflow #1 (200)
  - [x] BufferOverflow #2 (200)
@@ -44,7 +44,7 @@
  - [ ] Loopy #0 (350)
  - [ ] Loopy #1 (500)
 
-## Forensics
+### Forensics
  - [x] Least Significant Avenger (50)
  - [x] The MetaMeme (75)
  - [x] Unzip Me (150)
@@ -55,7 +55,7 @@
  - [x] File recovery (300)
  - [ ] My Ears Hurt (75)
 
-## Web Exploitation
+### Web Exploitation
  - [x] Pink Panther (50)
  - [x] Scooby Doo (100)
  - [x] Dexter's Lab (125)
