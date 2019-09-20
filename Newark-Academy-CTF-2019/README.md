@@ -4,6 +4,7 @@
 ## Scoreboard
 
 ## Challenges
+
 ### Cryptography
 	- [x] Vyom's Soggy Croutons (50)
 	- [x] Loony Tunes (50)
@@ -55,11 +56,16 @@
 	- [x] Dexter's Lab (125)
 	- [x] Sesame Street (150)
 
+
+
 ## Cryptography - Vyom's Soggy Croutons (50)
+
 #### Description
 > Vyom was eating a CAESAR salad with a bunch of wet croutons when he sent me this: ertkw{vk_kl_silkv}. Can you help me decipher his message?
+
 #### Hint
 > You don't have to decode it by hand -- Google is your friend!
+
 #### Solution
 Thanks to description, we know that the cipher is CAESAR. The sift key will be `ord('n') - ord('e') = 9`. 
 So, we can decrypt it using some online tool like [Cryptii](https://cryptii.com/) or writing some python code:
@@ -72,17 +78,31 @@ print(plain)
 #### Flag
 `nactf{et_tu_brute}`
 
+
+
 ## [Cryptography] - Loony Tunes (50)
+
 #### Description
 > Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
+
 #### File
 ![pig.jpg](Images/pig.jpg)
+
 #### Solution
 The description refers to pig many times, in order to refer to **Pigpen Cipher**
 ![pigpen cipher](Images/pigpen_cipher.png)
+
 Using the cihper scheme, we can easily decrypt it
+
 #### Flag
 `nactf{th_th_th_thats_all_folks}`
 
+
+
 ## [Cryptography] - Reversible Sneaky Algorithm #0 (125)
+> Dr. J created a fast pseudorandom number generator (prng) to randomly assign pairs for the upcoming group test. Leaf really wants to know the pairs ahead of time... can you help him and predict the next output of Dr. J's prng? Leaf is pretty sure that Dr. J is using the middle-square method.
+
+nc shell.2019.nactf.com 31425
+
+The server is running the code in class-randomizer-0.c. Look at the function nextRand() to see how numbers are being generated!
 
