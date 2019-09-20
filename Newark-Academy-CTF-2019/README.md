@@ -5,7 +5,7 @@
 
 ## Challenges
 
-### [Cryptography](#cryptography-\--1)
+### [Cryptography](#cryptography\-1)
 	- [x] Vyom's Soggy Croutons (50)
 	- [x] Loony Tunes (50)
 	- [x] Reversible Sneaky Algorithm #0 (125)
@@ -15,7 +15,7 @@
 	- [ ] Dr.J's Group Test Randomizer: Board Problem #1 (300)
 	- [ ] Dr.J's Group Test Randomizer: Board Problem #2 (625)
 	- [ ] Syper Duper AES (250)
-### Reverse Engineering
+### [Reverse Engineering](#reverse-engineering\-1)
 	- [x] Keygen (600)
 ### General Skills
 	- [x] Intro to Flags (10)
@@ -81,7 +81,7 @@ print(plain)
 
 * * *
 
-## [Cryptography] - Loony Tunes (50)
+## Loony Tunes (50)
 
 #### Description
 > Ruthie is very inhumane. She keeps her precious pigs locked up in a pen. I heard that this secret message is the password to unlocking the gate to her PIGPEN. Unfortunately, Ruthie does not want people unlocking the gate so she encoded the password. Please help decrypt this code so that we can free the pigs! P.S. "\_" , "{" , and "}" are not part of the cipher and should not be changed. P.P.S the flag is all lowercase
@@ -100,7 +100,7 @@ Using the cihper scheme, we can easily decrypt it
 
 * * *
 
-## [Cryptography] - Reversible Sneaky Algorithm #0 (125)
+## Reversible Sneaky Algorithm #0 (125)
 
 #### Description
 > Yavan sent me these really large numbers... what can they mean? He sent me the cipher "c", the private key "d", and the public modulus "n". I also know he converted his message to a number with ascii. For example:
@@ -127,7 +127,7 @@ This is a RSA chal. We have public key (n,c), and we also have private key (d). 
 
 * * *
 
-## [Cryptography] - Reversible Sneaky Algorithm #1 (275)
+## Reversible Sneaky Algorithm #1 (275)
 
 #### Description
 > Lori decided to implement RSA without any security measures like random padding. Must be deterministic then, huh? Silly goose!
@@ -155,7 +155,7 @@ But the cipher space is small: `26^4 = 456976`. So we can brute force it.
 
 * * *
 
-## [Cryptography] - Reversible Sneaky Algorithm #2 (350)
+## Reversible Sneaky Algorithm #2 (350)
 
 #### Description
 > Oligar was thinking about number theory at AwesomeMath when he decided to encrypt a message with RSA. As a mathematician, he made various observations about the numbers. He told Molly one such observation:
@@ -196,7 +196,7 @@ Once we know `phi(n)` and `n`, we can find out `p` and `q`. And that's enough. W
 
 * * *
 
-## [Cryptography] - Dr. J's Group Test Randomizer: Board Problem #0 (100)
+## Dr. J's Group Test Randomizer: Board Problem #0 (100)
 
 #### Description
 > Dr. J created a fast pseudorandom number generator (prng) to randomly assign pairs for the upcoming group test. Leaf really wants to know the pairs ahead of time... can you help him and predict the next output of Dr. J's prng? Leaf is pretty sure that Dr. J is using the middle-square method.
@@ -249,8 +249,10 @@ So, we can calculate the 2 next seeds easily.
 `nactf{1_l0v3_chunky_7urn1p5}`
 
 * * *
+# [Reverse Engineering]
+***
 
-## [Reverse Engineering] - Keygen (100)
+## Keygen (100)
 
 #### Description
 > Can you figure out what the key to this program is?
