@@ -40,7 +40,7 @@
 	- [x] Format #1 (250)
 	- [ ] Loopy #0 (350)
 	- [ ] Loopy #1 (500)
-### Forensics
+### [Forensics](#forensics\-1)
 	- [x] Least Significant Avenger (50)
 	- [x] The MetaMeme (75)
 	- [x] Unzip Me (150)
@@ -591,8 +591,6 @@ Just play like minesweeper! We will come to this:
 `nactf{conwayblco}`
 
 
-
-
 ***
 # [Binary Exploitation]
 ***
@@ -781,6 +779,201 @@ nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}
 
 #### Flag
 `nactf{Pr1ntF_wr1t3s_t0o_rZFCUmba}`
+
+
+***
+# Forensics
+***
+
+## Least Significant Avenger (50)
+
+#### Description
+> I hate to say it but I think that Hawkeye is probably the Least Significant avenger. Can you find the flag hidden in this picture?
+
+#### Hint
+> Hiding messages in pictures is called stenography. I wonder what the least significant type of stenography is.
+
+#### File
+- [insignificant_hawkeye.png](Images/insignificant_hawkeye.png)
+
+#### Solution
+Using [tool](https://stylesuxx.github.io/steganography/) to decode.
+
+#### Flag
+`nactf{h4wk3y3_15_th3_l34st_51gn1f1c4nt_b1t}`
+
+
+***
+
+## The MetaMeme (75)
+
+#### Description
+> Phil sent me this meme and its a little but suspicious. The meme is super meta and it may be even more meta than you think.
+Wouldn't it be really cool if it also had a flag hidden somewhere in it? Well you are in luck because it certainly does!
+
+
+#### Hint
+> Hmm how can find some Meta info about a file type?
+Google is your friend :)
+
+#### File
+- [metametametameta.pdf](Files/metametametameta.pdf)
+
+#### Solution
+```bash
+strings metametametameta.pdf | grep nactf
+```
+
+#### Flag
+`nactf{d4mn_th15_1s_s0_m3t4}`
+
+
+***
+
+## Unzip Me (150)
+
+#### Description
+> I stole these files off of The20thDucks' computer, but it seems he was smart enough to put a password on them. Can you unzip them for me?
+
+#### Hint
+> There are many tools that can crack zip files for you
+
+> All the passwords are real words and all lowercase
+
+#### File
+- [zip1.zip](Files/unzipme/zip1.zip)
+- [zip2.zip](Files/unzipme/zip2.zip)
+- [zip3.zip](Files/unzipme/zip3.zip)
+
+#### Solution
+```bash
+fcrackzip -u -D -p '/usr/share/wordlists/rockyou.txt' zip1.zip
+fcrackzip -u -D -p '/usr/share/wordlists/rockyou.txt' zip2.zip
+fcrackzip -u -D -p '/usr/share/wordlists/rockyou.txt' zip3.zip
+```
+
+#### Flag
+`nactf{dicnionaryrockdog}`
+
+
+***
+
+## Kellen's Broken File (150)
+
+#### Description
+> Kellen gave in to the temptation and started playing World of Tanks again. He turned the graphics up so high that something broke on his computer!
+Kellen is going to lose his HEAD if he can't open this file. Please help him fix this broken file.
+
+#### Hint
+> A hex editor might be useful
+
+#### File
+- [Kellens_broken_file.pdf](Files/Kellens_broken_file.pdf)
+
+#### Solution
+just open the file.
+
+#### Flag
+`nactf{kn0w_y0ur_f1l3_h34d3rsjeklwf}`
+
+
+***
+
+## Kellen's PDF sandwich (150)
+
+#### Description
+> Kellen was playing some more World of Tanks....
+He played so much WOT that he worked up an appetite.
+Kellen ripped a PDF in half. He then treated these two halves as bread and placed a different PDF on the inside (yummy PDF meat!). That sounds like one good PDF sandwich. PDF on the outside and inside! YUM!
+
+#### Hint
+> You are going to have to find a way to remove the PDF from inside the other PDF file.
+
+#### File
+- [MeltedFile.pdf](Files/kellen-sandwich/MeltedFile.pdf)
+
+#### Solution
+Open pdf file to get 1st part of flag.
+Then run `foremost MeltedFile.pdf`, we will extract an other pdf file, containing the 2nd part of flag.
+
+#### Flag
+`nactf{w3_l0v3_w0rld_0f_t4nk5ejwjfae}`
+
+
+***
+
+## Filesystem Image (200)
+
+#### Description
+> Put the path to flag.txt together to get the flag! for example, if it was located at ab/cd/ef/gh/ij/flag.txt, your flag would be nactf{abcdefghij}
+
+#### Hint
+> Check out loop devices on Linux
+
+#### File
+- [fsimage.iso.gz](Files/filesystem/fsimage.iso.gz)
+
+#### Solution
+Extract to file fsimage.iso. Right click *Open With Disk Image Mounter*.
+Go to the mounted folder. Run
+```bash
+find -name 'flag.txt'
+```
+
+#### Flag
+`nactf{lqwkzopyhu}`
+
+
+***
+
+## Phuzzy Photo (250)
+
+#### Description
+> Joyce's friend just sent her this photo, but it's really fuzzy. She has no idea what the message says but she thinks she can make out some black text in the middle. She gave the photo to Oligar, but even his super eyes couldn't read the text. Maybe you can write some code to find the message?
+Also, you might have to look at your screen from an angle to see the blurry hidden text
+P.S. Joyce's friend said that part of the message is hidden in every 6th pixel
+
+#### File
+- [The_phuzzy_photo.png](Files/The_phuzzy_photo.png)
+
+#### Solution
+```python
+from PIL import Image
+
+im = Image.open('../Files/The_phuzzy_photo.png')
+im2 = Image.new('RGB', (300, 300))
+im2.putdata(list(im.getdata())[::6])
+im2.show()
+```
+
+#### Flag
+`nactf{u22y_boy5_un1t3}`
+
+
+***
+
+## File recovery (300)
+
+#### Description
+> JUh oh! Lillian has accidentally deleted everything on her flash drive! Here's an image of the drive; find the PNG and get the flag.
+
+#### Hint
+> Although the file entry is gone from the filesystem, its contents are still on disk
+
+> If only there were tools to find file signatures...
+
+#### File
+- [filerecovery.iso.gz](Files/filerecovery/filerecovery.iso.gz)
+
+#### Solution
+```bash
+foremost filerecovery.iso
+```
+Go and get flag
+
+#### Flag
+`nactf{f1l3_r3c0v3ry_15_c0ol}`
+
 
 
 ***

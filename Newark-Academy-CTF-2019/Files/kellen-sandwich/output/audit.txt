@@ -1,0 +1,23 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Mon Sep 23 14:20:48 2019
+Invocation: foremost MeltedFile.pdf 
+Output directory: /root/CTF-Writeup/Newark-Academy-CTF-2019/Files/kellen-sandwich/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: MeltedFile.pdf
+Start: Mon Sep 23 14:20:48 2019
+Length: 30 KB (31216 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00000000.pdf 	      15 KB 	          0 	 
+Finish: Mon Sep 23 14:20:48 2019
+
+1 FILES EXTRACTED
+	
+pdf:= 1
+------------------------------------------------------------------
+
+Foremost finished at Mon Sep 23 14:20:48 2019

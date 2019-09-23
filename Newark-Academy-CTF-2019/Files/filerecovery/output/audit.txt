@@ -1,0 +1,23 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Mon Sep 23 14:41:49 2019
+Invocation: foremost filerecovery.iso 
+Output directory: /root/CTF-Writeup/Newark-Academy-CTF-2019/Files/filerecovery/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: filerecovery.iso
+Start: Mon Sep 23 14:41:49 2019
+Length: 4 MB (4194304 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00002095.png 	       3 KB 	    1072640 	  (321 x 41)
+Finish: Mon Sep 23 14:41:49 2019
+
+1 FILES EXTRACTED
+	
+png:= 1
+------------------------------------------------------------------
+
+Foremost finished at Mon Sep 23 14:41:49 2019
