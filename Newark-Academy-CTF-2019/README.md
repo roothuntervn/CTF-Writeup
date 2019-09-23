@@ -17,7 +17,7 @@
 	- [ ] Syper Duper AES (250)
 ### [Reverse Engineering](#reverse-engineering\-1)
 	- [x] Keygen (600)
-### General Skills
+### [General Skills](#general-skills\-1)
 	- [x] Intro to Flags (10)
 	- [x] Join the Discord (25)
 	- [x] What the HEX? (25)
@@ -510,9 +510,9 @@ Use the flag format nactf{...}
 > Cells colored white represent 0's and cells colored black represent 1's.
 
 #### File
-- [Cell.jar](cellular0/Cell.jar)
-- [inpattern.txt](cellular0/inpattern.txt)
-- [Vikrams_Instructions.txt](cellular0/ikrams_Instructions.txt)
+- [Cell.jar](Files/cellular0/Cell.jar)
+- [inpattern.txt](Files/cellular0/inpattern.txt)
+- [Vikrams_Instructions.txt](Files/cellular0/ikrams_Instructions.txt)
 
 #### Solution
 In linux, run `Cell.jar` using command `java -jar Cell.jar`.
@@ -543,10 +543,10 @@ btw, flag is all lowercase
 > This program is similar to Conway's "Game of Life"
 
 #### File
-- [Cell.jar](cellular1/Cell.jar)
-- [inpattern.txt](cellular1/inpattern.txt)
-- [How_to_use_cell.jar.txt](cellular1/How_to_use_cell.jar.txt)
-- [Erics_Instructions.txt](cellular1/Erics_Instructions.txt)
+- [Cell.jar](Files/cellular1/Cell.jar)
+- [inpattern.txt](Files/cellular1/inpattern.txt)
+- [How_to_use_cell.jar.txt](Files/cellular1/How_to_use_cell.jar.txt)
+- [Erics_Instructions.txt](Files/cellular1/Erics_Instructions.txt)
 
 #### Solution
 Program to Parse
