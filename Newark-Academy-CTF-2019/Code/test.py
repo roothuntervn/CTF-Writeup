@@ -1,1 +1,3 @@
-print('bmFjdGZ7YV9jaDRuZzNfMGZfYmE1ZX0='.decode('base64'))
+c = ' 1 1 . 1 . . . . 1 1 . 1 1 . . . 1 1 . . . . 1 . 1 1 . . . 1 1 . 1 1 . 1 . 1 1 . 1 1 1 . . 1 1'
+d = c.replace('.','0').replace(' ','')
+print(hex(int(d,2))[2:].decode('hex'))

