@@ -1058,3 +1058,6 @@ Edit cookie `session-time`, change the `Path` to `flag.php`, change the `value` 
 
 #### Flag
 `nactf{c000000000ki3s}`
+
+***
+***Hope you enjoy the game***
