@@ -563,7 +563,32 @@ After 20 generations, we got this
 `nactf{ie_eid_ftw}`
 
 
+***
 
+## Cellular Evolution #2: VikTreebel (150)
+
+#### Description
+> Thanks to your help, Eric and Vikram fixed their cells. Business is booming, and they're now a multinational megacorporation! They need bigger cells to meet demand: Eric used the rule "sum8" to evolve his cells to their next stage of evolution! Sum8 sets each cell to the sum of the cells around it (see examples). Eric sent us his evolved cells, but we want to know what they looked like before! Can you turn back time and get the flag?
+
+#### Hint
+> Make sure your settings are the same as in the example images, except change "cell size" to medium.
+
+> Submit your answer with the flag format nactf{}. Use all lowercase alphabetical characters.
+
+> You can do this one by hand. It's like minesweeper!
+
+#### File
+- [Cell.jar](Files/cellular2/Cell.jar)
+- [inpattern.txt](Files/cellular2/inpattern.txt)
+- [example1.png](Files/cellular2/example1.png)
+- [example2.png](Files/cellular2/example2.png)
+
+#### Solution
+Just play like minesweeper! We will come to this:
+![cellular2.png](Images/cellular2.png)
+
+#### Flag
+`nactf{conwayblco}`
 
 
 
