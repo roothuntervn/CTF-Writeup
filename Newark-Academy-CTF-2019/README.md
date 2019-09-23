@@ -1,8 +1,6 @@
 # Newark Academy CTF 2019 Writeup
 [CTFTime link](https://ctftime.org/event/869) | [Website](https://www.nactf.com/)
 
-## Scoreboard
-
 ## Challenges
 
 ### [Cryptography](#cryptography\-1)
