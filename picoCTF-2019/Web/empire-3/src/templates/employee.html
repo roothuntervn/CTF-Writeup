@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<h2 class="page-header">Your Colleagues!</h2>
+{% if users %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Employee ID</th>
+				<th scope="col">Username</th>
+				<th scope="col">Name</th>
+			</tr>
+		</thead>
+	<tbody>
+	{% for user in users %}
+	<tr>
+			<th scope="row">{{ user['id'] }}</th>
+			<td>{{ user['username'] }}</td>
+			<td>{{ user['name'] }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+
+{% else %}
+	<p>Nothing to show here</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1 class="page-header">Things You Gotta Do</h1>
+{% if items %}
+	<ul class="list-unstyled">
+	{% for item in items %}
+	<div class="row">
+		<div class="col-md-6">
+			<div class="well well-sm">
+				<li>
+				<strong>Very Urgent:</strong> {{ item['item'] }}
+				</li> 
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	</ul>
+
+{% else %}
+	<p>Nothing to show here</p>
+{% endif %}
+{% endblock %}

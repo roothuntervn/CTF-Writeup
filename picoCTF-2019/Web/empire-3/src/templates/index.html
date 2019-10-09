@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block app_content %}
+{% if current_user.username %}
+
+<h1 class="text-capitalize page-header">Welcome, {{ current_user.name }}!</h1>
+<p>Now get to work. We must take over the world.</p>
+
+{% else %}
+
+<h1 class="text-capitalize page-header">Welcome!</h1>
+<p>The website is guarded by sharks with lasers. Employees, please log in. Everyone else please leave.</p>
+
+{% endif %}
+    
+{% endblock %}

@@ -18,7 +18,7 @@ With some recons, we know that the template is `Jinja2`.
 ![card1.png](card1.png)
 ![card2.png](card2.png)
 
-To get flag, inject this:
+But `picoCTF{your_flag_is_in_another_castle12345678}` is the fake flag. To get the real flag, inject this:
 
 ![card3.png](card3.png)
 ![card4.png](card4.png)

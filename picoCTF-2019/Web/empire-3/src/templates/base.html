@@ -1,0 +1,74 @@
+<html>
+{% extends 'bootstrap/base.html' %}
+    <head>
+        {% block title %}{% if title %}
+        {{ title }}
+        {% else %}
+        Testing
+        {% endif %}{% endblock %}
+    </head>
+    <body>
+	{% block navbar %}
+		<nav class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{{ url_for('index') }}">Evil Empire Company</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					{% if current_user.is_anonymous %}
+					<ul class="nav navbar-nav">
+						<li><a href='{{url_for("index")}}'>Home</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href='{{url_for("login")}}'>Login</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href='{{url_for("register")}}'>Register</a></li>
+					</ul>
+					{% else %}
+					<ul class="nav navbar-nav">
+						<li><a href='{{url_for("add_item")}}'>Add a Todo</a></li>
+					</ul>
+					<ul class="nav navbar-nav">
+						<li><a href='{{url_for("list_items")}}'>Your Todos</a></li>
+					</ul>
+					<ul class="nav navbar-nav">
+						<li><a href='{{url_for("employee")}}'>Employee Listing</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href='{{url_for("logout")}}'>Logout</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a class="text-capitalize" href='{{url_for("index")}}'>Hello, {{current_user.username}}</a></li>
+					</ul>
+				</div>
+				{% endif %}
+			</div>
+		</nav>
+		{% endblock %}
+        
+        
+        {% block content %}
+		<div class="container">
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			
+				{% for message in messages %}
+				<div class="alert alert-info">{{ message }}</div>
+				{% endfor %}
+			
+			{% endif %}
+			{% endwith %}
+
+			{% block app_content %}{%endblock%}
+			</div>
+
+		{% endblock %}
+
+
+	<nav class="navbar fixed-bottom navbar-light bg-faded">
+			  <a class="navbar-brand" href="#">Fixed bottom</a>
+	</nav>
+    </body>
+
+</html>
