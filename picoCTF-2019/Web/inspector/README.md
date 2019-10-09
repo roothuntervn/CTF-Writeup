@@ -14,4 +14,4 @@ The flag includes 3 parts in 3 files:
 3. https://2019shell1.picoctf.com/problem/63975/myjs.js
 
 #### Flag
-`picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?d3db9182}}`
+`picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?d3db9182}`
