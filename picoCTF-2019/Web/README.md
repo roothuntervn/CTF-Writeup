@@ -1,5 +1,3 @@
-# picoCTF 2019 Writeup - Web Exploitation
-
 ### Web Exploitation
 - [x] [Insp3ct0r (50)](inspector)
 - [x] [logon (100)](logon)
