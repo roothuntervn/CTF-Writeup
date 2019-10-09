@@ -7,7 +7,7 @@
 > What is obfuscation?
 
 #### Solution
-View-source, then use this [tool](https://beautifier.io) to make the code clearly to read. We got:
+View-source, we see some js. Use this [tool](https://beautifier.io) to make the code clearly to read. We got this:
 
 ```javascript
 (function(_0x4bd822, _0x2bd6f7) {
