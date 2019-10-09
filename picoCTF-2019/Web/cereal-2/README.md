@@ -14,14 +14,14 @@ But fortunately, we got a LFI, using **php wrapper** we can leak the source code
 ```
 https://2019shell1.picoctf.com/problem/62195/index.php?file=php://filter/convert.base64-encode/resource=index
 ```
-Using this bug, we can get all the source code.
+Using this bug, we can get all the [source code](src).
 
 Now, you can see that the app uses *prepared statement*, so it's not injectable with SQLi. I cannot find a way to bypass it. So I use the bug of [cereal hacker 1](../cereal-1) to get flag of this chal LOL.
 
 ```
-	if (!($prepared = $sql_conn_login->prepare("SELECT username, admin FROM pico_ch2.users WHERE username = ? AND password = ?;"))) {
-	    die("SQL error");
-	}
+if (!($prepared = $sql_conn_login->prepare("SELECT username, admin FROM pico_ch2.users WHERE username = ? AND password = ?;"))) {
+    die("SQL error");
+}
 ```
 From this line, we know the `database` is `pico_ch2`, and the `table` is `users`.
 So I will write some code to get flag of `cereal hacker 2` from `cereal hacker 1` using Blind SQL injection :)
