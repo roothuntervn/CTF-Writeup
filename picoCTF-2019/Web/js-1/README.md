@@ -37,13 +37,13 @@ function assemble_png(u_in){
 ```
 
 We have to RE this code to get the **key**.
-First, visit https://2019shell1.picoctf.com/problem/10188/bytes to get array **bytes**.
+First, visit https://2019shell1.picoctf.com/problem/10188/bytes to get the array **bytes[]**.
 With `j=0`, we got:
 ```javascript
 result[i] = bytes[(shifter * 16) % 688 + i]
 ````
-First bytes of result[] is in the **base64encoded** of **png magic number**.
-We know 16 first bytes of bytes[], so we can RE to get 16 first bytes of result[] easily.
+First bytes of result[] is the **PNG file magic number**.
+We know 16 first bytes of result[], so we can RE to get the key.
 
 ```python
 from pprint import pprint
