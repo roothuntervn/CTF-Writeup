@@ -7,12 +7,9 @@
 > Can cookies help you to get the flag?
 
 #### Solution
-Edit cookie into this:
+```bash
+curl https://2019shell1.picoctf.com/problem/32205/flag -H "User-Agent:picobrowser"
 ```
-admin: True
-time: 1400
-```
-Then visit the flag page.
 
 #### Flag
-`picoCTF{0p3n_t0_adm1n5_2e8d3883}`
+`picoCTF{p1c0_s3cr3t_ag3nt_ee951878}`
