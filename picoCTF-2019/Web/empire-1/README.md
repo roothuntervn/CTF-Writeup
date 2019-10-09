@@ -18,10 +18,11 @@ If we inject `ab' || 'cd`, we will receive `abcd`.
 ![card.png](card.png)
 ![card2.png](card2.png)
 
-The concat string is `||`, so db is `PostgreSQL` or `Oracle`.
+The concat keyword is `||`, so database is `PostgreSQL` or `Oracle`.
 To distingush between `PostgreSQL` and `Oracle`, we inject `ab' || (select 1) || 'cd`and got `ab1cd`. So DB is `PostgreSQL`, because `Oracle` need the keyword `from` in `select` statement.
 
 ![card3.png](card3.png)
+![card5.png](card5.png)
 
 However, there are some filters, so I cannot dump the database. With some lucky, the final payload to get flag is:
 
@@ -31,4 +32,4 @@ However, there are some filters, so I cannot dump the database. With some lucky,
 ![card4.png](card4.png)
 
 #### Flag
-`picoCTF{wh00t_it_a_sql_inject46527b2c} `
+`picoCTF{wh00t_it_a_sql_inject46527b2c}`
