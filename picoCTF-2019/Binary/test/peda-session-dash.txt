@@ -1,0 +1,5 @@
+break *vuln+77
+disable $bpnum
+break *vuln+77
+disable $bpnum
+
