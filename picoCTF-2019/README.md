@@ -1,7 +1,7 @@
 # picoCTF 2019 Writeup
 
 ### [Web Exploitation](Web)
-- [x] [Insp3ct0r (50)](Web/inspector)
+<!-- - [x] [Insp3ct0r (50)](Web/inspector)
 - [x] [logon (100)](Web/logon)
 - [x] [where are the robots (100)](Web/robots)
 - [x] [dont-use-client-side (100)](Web/client-1)
@@ -18,7 +18,7 @@
 - [x] [Empire2 (450)](Web/empire-2)
 - [x] [Empire3 (500)](Web/empire-3)
 - [x] [cereal hacker 1 (450)](Web/cereal-1)
-- [x] [cereal hacker 2 (500)](Web/cereal-2)
+- [x] [cereal hacker 2 (500)](Web/cereal-2) -->
 
 ### [General Skills](General)
 
