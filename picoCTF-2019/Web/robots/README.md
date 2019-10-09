@@ -8,7 +8,11 @@
 
 #### Solution
 Visit https://2019shell1.picoctf.com/problem/12267/robots.txt.
-We see a secret file. So access that file:
+```
+User-agent: *
+Disallow: /713d3.html
+```
+Access that file, we got flag.
 https://2019shell1.picoctf.com/problem/12267/713d3.html
 
 #### Flag
