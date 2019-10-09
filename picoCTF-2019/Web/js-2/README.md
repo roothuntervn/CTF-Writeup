@@ -43,7 +43,7 @@ shifter = Number(key.slice((i*2),(i*2)+1));
 ```
 Again, with `j=0`, we got:
 ```javascript
-result[i] = bytes[(shifter * 16) % 688 + i]
+result[i] = bytes[(shifter * 16) % 720 + i]
 ````
 From shifter we got the key.
 
