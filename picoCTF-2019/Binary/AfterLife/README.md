@@ -1,10 +1,13 @@
 # PWN - AfterLife (400)
 
+
 ## Description
 > Just pwn this [program](vuln) and get a flag. It's also found in /problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6 on the shell server. [Source](vuln.c)
 
+
 ## Hints
 > If you understood the double free, a use after free should not be hard! http://homes.sice.indiana.edu/yh33/Teaching/I433-2016/lec13-HeapAttacks.pdf
+
 
 ## Examination
 Ở đây ta có 1 hàm win() để đọc flag, 1 hàm main() bao gồm nhiều lệnh malloc() và free(). Đây rõ ràng là một bài về Heap exploitation. Mục tiêu là gọi được hàm win().
@@ -42,6 +45,7 @@ RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272
 2
 ```
 
+
 ## Bugs
 Sau khi phân tích sơ bộ chương trình, giờ ta sẽ đi vào đọc source code để tìm lỗi:
 ```c
@@ -73,8 +77,33 @@ Nếu đã từng làm việc với Heap Exploitation, bạn sẽ nhận ra ngay
 Biến con trỏ `first` sau khi đã free() vẫn được sử dụng lại. Ngoài ra, dòng này còn dính lỗi **Heap Overflow** khi không ràng buộc độ dài buffer truyền vào `first`. Nhưng thấy lỗi là một chuyện, làm sao để khai thác nó lại là một chuyện khác.
 Để hiểu được flow của chương trình cách tốt nhất là dùng một công cụ debug, tôi hay dùng [pwndbg](https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md) để làm những bài về Heap.
 
+
+
 ## Prepare enviroment
-Có một điều cần lưu ý là server pico sử dụng thư viện libc phiên bản 2.27:
+Có 2 điểm quan trọng cần lưu ý:
+
+### dlmalloc
+Binary được build với 1 thư viện malloc đã custom, đó là **dlmalloc** (Doug Lea's malloc), không sử dụng hàm malloc() chuẩn của glibc. Ta có thể xác nhận điều này bằng **radare2**:
+```bash
+[0x08048850]> afl~malloc
+0x08048b7f    4 226          sym.malloc_init_state
+0x0804937b   64 1908         sym.malloc
+0x08049d81   16 481          sym.malloc_consolidate
+0x0804a7ca    1 37           sym.independent_comalloc
+0x0804ab38    1 58           sym.malloc_trim
+0x0804ab72    7 105          sym.malloc_usable_size
+0x0804ad80    3 176          sym.malloc_stats
+```
+Nếu so sánh với binary của bài [messy-malloc](../messy-malloc/README.md) (được build bằng **standard glibc**) ta sẽ thấy khác biệt:
+```bash
+[0x004008e0]> afl~malloc
+0x00400870    1 6            sym.imp.malloc
+```
+Vì sao lại như vậy? Vì các phiên bản sau này của **standard glibc** đã áp dụng các cơ chế check lỗi đã hạn chế xảy ra các lỗi như **User After Free** và **Double Free**. Do đó để khai thác được 2 lỗi này trên 1 bin được build với **standard glibc** là khó khăn. Ở đây tác giả muốn minh họa lại 2 lỗi này một cách dễ dàng nhất nên đã build binary với **dlmalloc**. Đọc thêm ở phần **hint**.
+
+### glibc version
+
+Server pico sử dụng thư viện libc phiên bản 2.27:
 ```bash
 RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6$ ldd vuln
 	linux-gate.so.1 (0xf7fca000)
@@ -83,16 +112,17 @@ RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272
 RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6$ ls -l /lib32/libc.so.6
 lrwxrwxrwx 1 root root 12 Apr 16  2018 /lib32/libc.so.6 -> libc-2.27.so
 ```
-Do đó nếu bạn đang dùng hệ điều hành mới hơn với glibc version khác thì nhiều khi bạn debug trên máy được nhưng khi lên server lại thọt một cách đau đớn (tôi dùng Kali linux và phiên bản libc trên máy là 2.29). Vì các phiên bản glibc mới hơn sẽ có các đặc điểm cấp phát bộ nhớ khác hơn phiên bản cũ. Libc từ phiên bản 2.26 trở lên đã giới thiệu thêm một loại bin khác, đó là tcache bin, giúp cải thiện tốc độ cấp phát và giải phóng bộ nhớ.
+Do đó nếu máy của bạn sử dụng glibc version khác thì kết quả debug trên local với kết quả trên server đôi khi sẽ khác nhau (tôi dùng Kali linux và phiên bản libc trên máy là 2.29). 
 Để có thể sử dụng đúng phiên bản libc như server, tôi sẽ sử dụng 1 docker của tác giả [skysider](https://github.com/skysider/pwndocker) modified từ Ubuntu 18.04 với nhiều phiên bản libc được cài sẵn. Cài đặt cũng khá dễ dàng.
+
 
 ## Debug
 ```bash
 pwndbg> disass main
 Dump of assembler code for function main:
-   0x08048a0f <+0>:	lea    ecx,[esp+0x4]
-   0x08048a13 <+4>:	and    esp,0xfffffff0
-   0x08048a16 <+7>:	push   DWORD PTR [ecx-0x4]
+   0x08048a0f <+0>:		lea    ecx,[esp+0x4]
+   0x08048a13 <+4>:		and    esp,0xfffffff0
+   0x08048a16 <+7>:		push   DWORD PTR [ecx-0x4]
    0x08048a19 <+10>:	push   ebp
    0x08048a1a <+11>:	mov    ebp,esp
    0x08048a1c <+13>:	push   esi
@@ -400,6 +430,7 @@ shellcode
 ```
 Như vậy, cho dù 4 bytes ở giữa dãy `nop` có bị thay đổi, ta vẫn nhảy đến được shellcode.
 
+
 ## Exploit
 [Source exploit](ex.py)
 
@@ -439,6 +470,7 @@ $ cat flag.txt
 picoCTF{what5_Aft3r_e274134c}$  
 
 ```
+
 
 ## Bonus
 Vì bài này chỉ cần gọi hàm win() là đủ. Thay vì gọi shellcode để lấy shell,
